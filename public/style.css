@@ -1,0 +1,275 @@
+body {
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d4d4d4;
+    border-bottom: 3px solid #202020;
+    padding-right: 2%;
+}
+
+#logInOutLink, #backLink {
+    text-decoration: none;
+    font-size: 18px;
+    color: #202020;
+    background-color: white;
+    padding: 5px 10px;
+    border: 3px solid #202020;
+    border-radius: 10px;
+}
+
+#logInOutLink:hover, #backLink:hover {
+    background-color: #eee;
+}
+
+#logInOutLink:active, #backLink:active {
+    background-color: #d4d4d4;
+}
+
+h1 {
+    display: inline-block;
+    color: #202020;
+}
+
+main {
+    flex: 1;
+    padding: 40px 0;
+}
+
+#masterContainer {
+    display: flex;
+}
+
+#requestContainer {
+    display: flex;
+    justify-content: end;
+    min-width: 42vw;
+    margin-right: 40px;
+}
+
+#backgroundContainer {
+    padding: 15px;
+    background-color: #d4d4d4;
+    border: 3px solid #202020;
+    border-radius: 10px;
+    max-height: 391px;
+    box-sizing: border-box;
+}
+
+#uploadContainer {
+    margin-bottom: 10px;
+}
+
+#dropBox {
+    height: 150px;
+    border-radius: 10px;
+    padding: 5px;
+    background-image: url('./images/dropBox.png');
+    background-repeat: no-repeat;
+    background-size: 75px;
+    background-position: center;
+    font-size: 17px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#fileInput {
+    display: none;
+}
+
+.dragover {
+    background-color: #eee;
+    color: #2c2c2c;
+}
+
+.variantContainer {
+    background-color: white;
+    border: 3px solid #202020;
+    border-radius: 10px;
+    padding: 7px 0 7px 8px;
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+
+.variant {
+    margin-left: 2px;
+    font-size: 15px;
+}
+
+select {
+    padding: 5px;
+    border-radius: 5px;
+    background: #eee;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+#sendBtn {
+    width: 269px;
+    padding: 9px 0 9px 10px;
+    background-color: white;
+    font-size: 25px;
+    border: 3px solid #202020;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#sendBtn:hover {
+    background-color: #eee;
+}
+
+#sendBtn:active {
+    background-color: #d4d4d4;
+}
+
+#sendBtn:disabled {
+    background-color: white;
+    cursor: not-allowed;
+}
+
+#responseContainer {
+    margin-bottom: 40px;
+}
+
+#resultsTable {
+    border-collapse: collapse;
+}
+
+th, td {
+    font-size: 17px;
+    border: 3px solid #202020;
+}
+
+th {
+    padding: 5px 12px;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+.manageIcon {
+    vertical-align: middle;
+}
+
+#fileName {
+    max-width: 102px;
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+}
+
+.success {
+    background-color: #eee;
+}
+
+.error {
+    background-color: #fa6868;
+}
+
+#loginContainer {
+    height: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border: 3px solid #202020;
+    border-radius: 10px;
+    background-color: #d4d4d4;
+}
+
+input {
+    font-size: 23px;
+    padding: 2px 0 2px 5px;
+    border-radius: 10px;
+}
+
+#loginBtn, #signUpBtn {
+    font-size: 23px;
+    border: 3px solid #202020;
+    border-radius: 10px;
+    padding-bottom: 4px;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d4d4d4;
+    border-top: 3px solid #202020;
+    padding: 16px 0;
+    font-size: 17px;
+}
+
+footer p {
+    display: inline-block;
+    color: #202020;
+}
+
+@media only screen and (max-width: 1280px) {
+    header {
+        padding-right: 4%;
+    }
+
+    #masterContainer {
+        flex-direction: column;
+        margin: 0;
+    }
+    
+    #requestContainer {
+        margin-right: 0;
+        justify-content: center;
+    }
+
+    #responseContainer {
+        margin: 40px 40px 0;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #btnContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #responseContainer {
+        margin: 40px 10px 0;
+    }
+
+    #viewBtn, #downloadBtn, #deleteBtn {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    #resultsTable th:nth-child(1), #resultsTable td:nth-child(1) {
+        display: none;
+    }
+
+    #loginForm {
+        width: 260px;
+    }
+}
