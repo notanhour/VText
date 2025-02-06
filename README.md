@@ -1,4 +1,4 @@
-# ВТекст
+# VText
 
 ## Description
 A project to transcribe audio to text utilizing Whisper.
@@ -12,29 +12,29 @@ sudo apt install nodejs
 sudo apt install npm
 ```
 
-### 2. Install Python dependencies
+### 2. Install Python Dependencies
 Install the required Node.js packages from the package.json file:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Install Node.js dependencies
+### 3. Install Node.js Dependencies
 Install the required Node.js packages from the `package.json` file:
 ```bash
 npm install
 ```
 
-### 4. Set up environment variables
+### 4. Set Up Environment Variables
 Create a `.env` file in the root directory of your project and add the following line:
 ```ini
 SECRET_KEY=your_secret_key
 ```
 
-### 5. Run it!
+### 5. Run it
 To start the server, run:
 ```bash
 npm start
 ```
 
 ## Notes
-If an NVIDIA graphics card with CUDA is available, uses it.
+If an NVIDIA graphics card with CUDA is available, it is utilized.
