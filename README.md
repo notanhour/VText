@@ -1,4 +1,4 @@
-# ВТекст
+# VText
 
 ## Description
 A project to transcribe audio to text utilizing Whisper.
