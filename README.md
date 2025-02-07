@@ -6,10 +6,11 @@ A project to transcribe audio to text utilizing Whisper.
 ## Setup
 
 ### 1. Install Node.js, npm and ffmpeg
-Run the following commands to install Node.js, npm and ffmpeg:
+Run the following commands to install Node.js & npm & ffmpeg:
 ```bash
 sudo apt install nodejs
 sudo apt install npm
+sudo apt install ffmpeg
 ```
 
 ### 2. Install Python Dependencies
@@ -85,5 +86,5 @@ docker stop <CONTAINER_ID>
 ### 5. Remove Unused Containers
 To clean up stopped containers:
 ```bash
-docker rm $(docker ps -aq)
+docker container prune
 ```
