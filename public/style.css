@@ -15,7 +15,8 @@ header {
     padding-right: 2%;
 }
 
-#logInOutLink, #backLink {
+#logInOutLink,
+#backLink {
     text-decoration: none;
     font-size: 18px;
     color: #202020;
@@ -25,11 +26,13 @@ header {
     border-radius: 10px;
 }
 
-#logInOutLink:hover, #backLink:hover {
+#logInOutLink:hover,
+#backLink:hover {
     background-color: #eee;
 }
 
-#logInOutLink:active, #backLink:active {
+#logInOutLink:active,
+#backLink:active {
     background-color: #d4d4d4;
 }
 
@@ -148,7 +151,8 @@ select {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     font-size: 17px;
     border: 3px solid #202020;
 }
@@ -168,8 +172,8 @@ td {
 
 #fileName {
     max-width: 102px;
-    overflow: hidden; 
-    white-space: nowrap; 
+    overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 
@@ -204,7 +208,8 @@ input {
     border-radius: 10px;
 }
 
-#loginBtn, #signUpBtn {
+#loginBtn,
+#signUpBtn {
     font-size: 23px;
     border: 3px solid #202020;
     border-radius: 10px;
@@ -235,7 +240,7 @@ footer p {
         flex-direction: column;
         margin: 0;
     }
-    
+
     #requestContainer {
         margin-right: 0;
         justify-content: center;
@@ -259,13 +264,17 @@ footer p {
         margin: 40px 10px 0;
     }
 
-    #viewBtn, #downloadBtn, #deleteBtn {
+    #viewBtn,
+    #downloadBtn,
+    #deleteBtn {
         width: 100%;
     }
 }
 
 @media only screen and (max-width: 576px) {
-    #resultsTable th:nth-child(1), #resultsTable td:nth-child(1) {
+
+    #resultsTable th:nth-child(1),
+    #resultsTable td:nth-child(1) {
         display: none;
     }
 

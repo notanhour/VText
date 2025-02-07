@@ -1,6 +1,6 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let files = [];
 
     resultsTable.innerHTML = '<thead><tr><th>ДАТА</th><th>ФАЙЛ</th><th>МОДЕЛЬ</th><th></th></tr></thead><tbody></tbody>';
@@ -30,26 +30,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Authorization': token
             }
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            if (data.success) {
-                logInOutLink.textContent = 'Выход';
-                logInOutLink.addEventListener('click', function(e) {
-                    e.preventDefault();
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.success) {
+                    logInOutLink.textContent = 'Выход';
+                    logInOutLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        localStorage.removeItem('token');
+                        window.location.href = 'index.html';
+                    });
+                    displayResults(data.transcripts);
+                } else {
+                    console.error('Invalid token.');
                     localStorage.removeItem('token');
-                    window.location.href = 'index.html';
-                });
-                displayResults(data.transcripts);
-            } else {
-                console.error('Invalid token.');
-                localStorage.removeItem('token');
-            }
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
-        });
+                }
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
     } else {
         logInOutLink.textContent = 'Вход';
         logInOutLink.href = './login/login.html';
@@ -64,37 +64,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Authorization': token
             }
         })
-        .then(function(res) {
-            if (!res.ok) {
-                console.error('Invalid token.');
-            }
-            return res.json();
-        })
-        .then(function(data) {
-            return data.success;
-        })
-        .catch(function(error) {
-            console.error('Error validating token:', error);
-            return false;
-        })
+            .then(function (res) {
+                if (!res.ok) {
+                    console.error('Invalid token.');
+                }
+                return res.json();
+            })
+            .then(function (data) {
+                return data.success;
+            })
+            .catch(function (error) {
+                console.error('Error validating token:', error);
+                return false;
+            })
     }
 
     // Открытие файлового диалога при клике на дроп-бокс
-    dropBox.addEventListener('click', function() {
+    dropBox.addEventListener('click', function () {
         fileInput.click();
     });
 
     // Обработка события перетаскивания файлов
-    dropBox.addEventListener('dragover', function(e) {
+    dropBox.addEventListener('dragover', function (e) {
         e.preventDefault();
         dropBox.classList.add('dragover');
     });
 
-    dropBox.addEventListener('dragleave', function() {
+    dropBox.addEventListener('dragleave', function () {
         dropBox.classList.remove('dragover');
     });
 
-    dropBox.addEventListener('drop', function(e) {
+    dropBox.addEventListener('drop', function (e) {
         e.preventDefault();
         dropBox.classList.remove('dragover');
         files = e.dataTransfer.files;
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         this.textContent = 'Выбрано файлов: ' + files.length;
         token = localStorage.getItem('token');
         if (token) {
-            validateToken(token).then(function(isValid) {
+            validateToken(token).then(function (isValid) {
                 if (isValid) {
                     sendBtn.disabled = false;
                 } else {
@@ -118,13 +118,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Обработка выбора файлов через файловый диалог
-    fileInput.addEventListener('change', function(e) {
+    fileInput.addEventListener('change', function (e) {
         files = e.target.files;
         dropBox.style.backgroundImage = 'none';
         dropBox.textContent = 'Выбрано файлов: ' + files.length;
         token = localStorage.getItem('token');
         if (token) {
-            validateToken(token).then(function(isValid) {
+            validateToken(token).then(function (isValid) {
                 if (isValid) {
                     sendBtn.disabled = false;
                 } else {
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    sendBtn.addEventListener('click', function() {
+    sendBtn.addEventListener('click', function () {
         if (!files) {
             alert('Пожалуйста, выберите файлы.');
             return;
@@ -169,23 +169,23 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: data
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            displayResults(data);
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
-        });
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                displayResults(data);
+            })
+            .catch(function (error) {
+                console.error('Error:', error);
+            });
     }
 
     function displayResults(results) {
-        results.forEach(function(result) {
+        results.forEach(function (result) {
             let resultInfo = document.createElement('tr');
 
             let ending = result.model.includes('medium') ? 'яя' : 'ая';
-            let translatedModel = Array.from(model.options).find(function(option) {
+            let translatedModel = Array.from(model.options).find(function (option) {
                 return result.model.includes(option.value);
             }).text.slice(0, -2) + ending;
 
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
             deleteIcon.style.height = '22px';
             deleteIcon.classList.add('manageIcon');
             deleteBtn.appendChild(deleteIcon);
-            
+
             let td = document.createElement('td');
 
             let btnContainer = document.createElement('div');
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             tbody.appendChild(resultInfo);
 
-            viewBtn.addEventListener('click', function() {
+            viewBtn.addEventListener('click', function () {
                 let textToShow = result.transcript;
                 let newTab = window.open();
                 if (newTab) {
@@ -251,8 +251,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            downloadBtn.addEventListener('click', function() {
-                let blob = new Blob([result.transcript], {type: 'text/plain'});
+            downloadBtn.addEventListener('click', function () {
+                let blob = new Blob([result.transcript], { type: 'text/plain' });
                 let url = URL.createObjectURL(blob);
                 let a = document.createElement('a');
                 a.href = url;
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.removeChild(a);
             });
 
-            deleteBtn.addEventListener('click', function() {
+            deleteBtn.addEventListener('click', function () {
                 fetch('/delete', {
                     method: 'DELETE',
                     headers: {
@@ -274,20 +274,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         id: result.id
                     })
                 })
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(data) {
-                    if (data.success) {
-                        tbody.removeChild(resultInfo);
-                        if (!document.querySelectorAll('#resultsTable tbody tr').length) {
-                            responseContainer.style.display = 'none';
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        if (data.success) {
+                            tbody.removeChild(resultInfo);
+                            if (!document.querySelectorAll('#resultsTable tbody tr').length) {
+                                responseContainer.style.display = 'none';
+                            }
                         }
-                    }
-                })
-                .catch(function(error) {
-                    console.error('Error:', error);
-                });
+                    })
+                    .catch(function (error) {
+                        console.error('Error:', error);
+                    });
             });
         });
         if (results.length) {
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    language.addEventListener('change', function() {
+    language.addEventListener('change', function () {
         if (this.value == 'en') {
             model.querySelector('option[value="large"]').disabled = true;
             if (model.value == 'large') {

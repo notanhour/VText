@@ -7,5 +7,5 @@ venv/
 # Uploads
 uploads/
 
-# Node Modules
+# Node.js Modules
 node_modules/

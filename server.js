@@ -12,6 +12,7 @@ const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
 const uploadFolder = 'uploads/';
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -24,12 +25,12 @@ function createUploadFolder() {
 }
 
 let storage = multer.diskStorage({
-    destination: function(req, file, callback) {
+    destination: function (req, file, callback) {
         if (!req.uploadFolder) req.uploadFolder = createUploadFolder();
         callback(null, req.uploadFolder);
     },
-    filename: function(req, file, callback) {
-        crypto.randomBytes(16, function(error, buf) {
+    filename: function (req, file, callback) {
+        crypto.randomBytes(16, function (error, buf) {
             if (error) {
                 return callback(error);
             }
@@ -46,13 +47,13 @@ app.use(bodyParser.json());
 
 let upload = multer({ storage: storage });
 
-app.post('/upload', upload.array('files'), function(req, res) {
+app.post('/upload', upload.array('files'), function (req, res) {
     let results = [];
     let date = getFDate();
     let model = req.body.model;
     let completed = 0;
 
-    req.files.forEach(function(file) {
+    req.files.forEach(function (file) {
         let filename = file.originalname;
         let filePath = path.resolve(file.path);
         let id = uuidv4();
@@ -69,10 +70,10 @@ app.post('/upload', upload.array('files'), function(req, res) {
             .output(chunkTemplate)
             .outputFormat('mp3')
             .outputOptions(['-f segment', `-segment_time ${chunkDuration}`])
-            .on('end', function() {
+            .on('end', function () {
                 processChunks(chunkFolder, filename, id);
             })
-            .on('error', function(error) {
+            .on('error', function (error) {
                 console.error('FFmpeg error:', error.message);
                 results.push({ id: id, file: filename, date: date, model: model, error: error.message });
                 isFinished();
@@ -81,14 +82,14 @@ app.post('/upload', upload.array('files'), function(req, res) {
     }
 
     function processChunks(chunkFolder, filename, id) {
-        let chunks = fs.readdirSync(chunkFolder).map(function(f) {
+        let chunks = fs.readdirSync(chunkFolder).map(function (f) {
             return path.join(chunkFolder, f);
         }).sort();
         let transcriptParts = [];
         let processed = 0;
 
-        chunks.forEach(function(chunk, i) {
-            exec(`python transcribe.py ${chunk} ${model}`, function(error, stdout, stderr) {
+        chunks.forEach(function (chunk, i) {
+            exec(`python transcribe.py ${chunk} ${model}`, function (error, stdout, stderr) {
                 if (error) {
                     console.error('Error:', error.message);
                     transcriptParts[i] = '[Ошибка транскрипции]';
@@ -127,7 +128,7 @@ app.post('/upload', upload.array('files'), function(req, res) {
         if (completed == req.files.length) {
             let username = decodeToken(req.headers['authorization']);
 
-            fs.readFile('./users.json', function(error, data) {
+            fs.readFile('./users.json', function (error, data) {
                 if (error) {
                     console.error('Error reading users.json:', error);
                     return res.status(500).json({ success: false, message: 'Ошибка сервера.' });
@@ -141,11 +142,11 @@ app.post('/upload', upload.array('files'), function(req, res) {
                     return res.status(500).json({ success: false, message: 'Ошибка сервера.' });
                 }
 
-                results.forEach(function(result) {
+                results.forEach(function (result) {
                     users[username].transcripts.push(result);
                 });
 
-                fs.writeFile('./users.json', JSON.stringify(users, null, 4), function(error) {
+                fs.writeFile('./users.json', JSON.stringify(users, null, 4), function (error) {
                     if (error) {
                         console.error('Error writing to users.json:', error);
                         res.status(500).json({ success: false, message: 'Ошибка сервера.' })
@@ -159,7 +160,7 @@ app.post('/upload', upload.array('files'), function(req, res) {
     }
 
     function deleteUploads(directory) {
-        fs.rm(directory, { recursive: true, force: true }, function(error) {
+        fs.rm(directory, { recursive: true, force: true }, function (error) {
             if (error) {
                 console.error('Unable to delete directory:', error);
             }
@@ -176,10 +177,10 @@ function decodeToken(token) {
     return decodedToken ? decodedToken.username : null;
 }
 
-app.post('/login', function(req, res) {
+app.post('/login', function (req, res) {
     let { username, password } = req.body;
 
-    fs.readFile('./users.json', function(error, data) {
+    fs.readFile('./users.json', function (error, data) {
         if (error) {
             console.error('Error reading users.json:', error);
             return res.status(500).json({ success: false, message: 'Ошибка сервера.' });
@@ -193,9 +194,20 @@ app.post('/login', function(req, res) {
             return res.status(500).json({ success: false, message: 'Ошибка сервера.' });
         }
 
-        if (users[username] && users[username].password == password) {
-            let token = generateToken(username);
-            res.json({ success: true, token: token });
+        if (users[username]) {
+            bcrypt.compare(password, users[username].password, function (error, result) {
+                if (error) {
+                    console.error('Error comparing passwords:', error);
+                    return res.status(500).json({ success: false, message: 'Ошибка сервера.' });
+                }
+
+                if (result) {
+                    let token = generateToken(username);
+                    res.json({ success: true, token: token });
+                } else {
+                    res.json({ success: false, message: 'Неверное имя пользователя или пароль.' });
+                }
+            });
         } else {
             res.json({ success: false, message: 'Неверное имя пользователя или пароль.' });
         }
@@ -207,7 +219,7 @@ function authenticateToken(req, res, next) {
     if (!token) {
         return res.status(401).json({ success: false, message: 'Не авторизован.' });
     }
-    jwt.verify(token, SECRET_KEY, function(error, decoded) {
+    jwt.verify(token, SECRET_KEY, function (error, decoded) {
         if (error) {
             return res.status(403).json({ success: false, message: 'Токен недействителен.' });
         }
@@ -215,10 +227,10 @@ function authenticateToken(req, res, next) {
     });
 }
 
-app.post('/register', function(req, res) {
+app.post('/register', function (req, res) {
     let { username, password } = req.body;
 
-    fs.readFile('./users.json', function(error, data) {
+    fs.readFile('./users.json', function (error, data) {
         if (error) {
             console.error('Error reading users.json:', error);
             return res.status(500).json({ success: false, message: 'Ошибка сервера.' });
@@ -235,27 +247,34 @@ app.post('/register', function(req, res) {
         if (users[username]) {
             res.status(400).json({ success: false, message: 'Имя пользователя занято. Попробуйте другое.' });
         } else {
-            
-            users[username] = {
-                password: password,
-                transcripts: []
-            };
-            fs.writeFile('./users.json', JSON.stringify(users, null, 4), function(error) {
+            bcrypt.hash(password, 10, function (error, hash) {
                 if (error) {
-                    console.error('Error writing to users.json:', error);
-                    res.status(500).json({ success: false, message: 'Ошибка сервера.' });
-                } else {
-                    res.json({ success: true });
+                    console.error('Error hashing password:', error);
+                    return res.status(500).json({ success: false, message: 'Ошибка сервера.' });
                 }
+
+                users[username] = {
+                    password: hash,
+                    transcripts: []
+                };
+
+                fs.writeFile('./users.json', JSON.stringify(users, null, 4), function (error) {
+                    if (error) {
+                        console.error('Error writing to users.json:', error);
+                        res.status(500).json({ success: false, message: 'Ошибка сервера.' });
+                    } else {
+                        res.json({ success: true });
+                    }
+                });
             });
         }
     });
 });
 
-app.post('/prefetch', authenticateToken, function(req, res) {
+app.post('/prefetch', authenticateToken, function (req, res) {
     let username = decodeToken(req.headers['authorization']);
 
-    fs.readFile('./users.json', function(error, data) {
+    fs.readFile('./users.json', function (error, data) {
         if (error) {
             console.error('Error reading users.json:', error);
             return res.status(500).json({ success: false, message: 'Ошибка сервера.' });
@@ -275,11 +294,11 @@ app.post('/prefetch', authenticateToken, function(req, res) {
     });
 });
 
-app.delete('/delete', function(req, res) {
+app.delete('/delete', function (req, res) {
     let username = decodeToken(req.headers['authorization']);
     const id = req.body.id;
 
-    fs.readFile('./users.json', function(error, data) {
+    fs.readFile('./users.json', function (error, data) {
         if (error) {
             console.error('Error reading users.json:', error);
             return res.status(500).json({ success: false, message: 'Ошибка сервера.' });
@@ -294,13 +313,13 @@ app.delete('/delete', function(req, res) {
         }
 
         let transcripts = users[username].transcripts;
-        let transcriptIndex = transcripts.findIndex(function(transcript) {
+        let transcriptIndex = transcripts.findIndex(function (transcript) {
             return transcript.id == id;
         });
 
         if (transcriptIndex != -1) {
             transcripts.splice(transcriptIndex, 1);
-            fs.writeFile('./users.json', JSON.stringify(users, null, 4), function(error) {
+            fs.writeFile('./users.json', JSON.stringify(users, null, 4), function (error) {
                 if (error) {
                     console.error('Error writing to users.json:', error);
                     res.status(500).json({ success: false, message: 'Ошибка сервера.' });
@@ -312,12 +331,12 @@ app.delete('/delete', function(req, res) {
     });
 });
 
-app.post('/validate', function(req, res) {
-    authenticateToken(req, res, function() {
+app.post('/validate', function (req, res) {
+    authenticateToken(req, res, function () {
         res.json({ success: true });
     });
 });
 
-app.listen(port, function() {
+app.listen(port, function () {
     console.log(`Server is running on port ${port}`);
 });

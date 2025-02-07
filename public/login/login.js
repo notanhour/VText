@@ -1,6 +1,6 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let headerWidth = document.querySelector('header').offsetWidth;
     let titleWidth = document.querySelector('h1').offsetWidth;
     let xIndent = `(100vw - ${titleWidth}px) / 2`;
@@ -13,12 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let yIndent = `(100vh - ${headerHeight}px - ${footerHeight}px - ${loginContainerHeight}px) / 2 - ${mainTopIndentHeight}`;
     loginContainer.style.paddingTop = `calc(${yIndent})`;
 
-    loginBtn.addEventListener('click', function(e) {
+    loginBtn.addEventListener('click', function (e) {
         e.preventDefault();
         authenticateUser('login');
     });
 
-    signUpBtn.addEventListener('click', function(e) {
+    signUpBtn.addEventListener('click', function (e) {
         e.preventDefault();
         authenticateUser('register');
     });
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function authenticateUser(action) {
         let username = document.querySelector('#username').value;
         let password = document.querySelector('#password').value;
-    
+
         fetch(`/${action}`, {
             method: 'POST',
             headers: {
@@ -34,24 +34,24 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({ username, password })
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            if (data.success) {
-                if (action == 'login') {
-                    localStorage.setItem('token', data.token);
-                    window.location.href = '../index.html';
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.success) {
+                    if (action == 'login') {
+                        localStorage.setItem('token', data.token);
+                        window.location.href = '../index.html';
+                    } else {
+                        alert('Вы зарегистрировались. Теперь Вам доступен вход.');
+                    }
                 } else {
-                    alert('Вы зарегистрировались. Теперь Вам доступен вход.');
+                    alert(data.message);
                 }
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(function(error) {
-            console.error('Error', error);
-            alert('Ошибка при выполнении запроса. Попробуйте еще раз.');
-        });
+            })
+            .catch(function (error) {
+                console.error('Error', error);
+                alert('Ошибка при выполнении запроса. Попробуйте еще раз.');
+            });
     }
 });
