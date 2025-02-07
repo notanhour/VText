@@ -17,10 +17,12 @@ If you're using an NVIDIA GPU with CUDA, specify the correct CUDA version in the
 torch --index-url https://download.pytorch.org/whl/cu<YOUR_CUDA_VERSION>
 ```
 
-For example, if you have CUDA 12.6:
+For example, if you have CUDA 12.4:
 ```txt
-torch --index-url https://download.pytorch.org/whl/cu126
+torch --index-url https://download.pytorch.org/whl/cu124
 ```
+
+If things don't work out, it's backwards compatible! So, go for another build.
 
 Then install the required Python dependencies from the `requirements.txt` file:
 ```bash
