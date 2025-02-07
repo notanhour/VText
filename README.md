@@ -5,12 +5,10 @@ A project to transcribe audio to text utilizing Whisper.
 
 ## Setup
 
-### 1. Install Node.js, npm and ffmpeg
-Run the following commands to install Node.js & npm & ffmpeg:
+### 1. Install the Required Packages
+Install Node.js & npm & ffmpeg & python3 & python-is-python3 & python3-pip & python3-venv with:
 ```bash
-sudo apt install nodejs
-sudo apt install npm
-sudo apt install ffmpeg
+sudo apt install -y nodejs npm ffmpeg python3 python-is-python3 python3-pip python3-venv
 ```
 
 ### 2. Install Python Dependencies
@@ -63,12 +61,12 @@ docker build -t vtext .
 ### 3. Run the Container
 To run the container, use:
 ```bash
-docker run --env-file .env -p <YOUR_PORT>:6482 vtext
+docker run --env-file .env -p 6482:6482 vtext
 ```
 
 To run the container in the background:
 ```bash
-docker run -d --env-file .env -p <YOUR_PORT>:6482 vtext
+docker run -d --env-file .env -p 6482:6482 vtext
 ```
 
 If an NVIDIA GPU with CUDA is in place, run it with `--gpus all`.
@@ -78,6 +76,7 @@ To stop the running container, first find its ID:
 ```bash
 docker ps
 ```
+
 Then stop it using:
 ```bash
 docker stop <CONTAINER_ID>  
