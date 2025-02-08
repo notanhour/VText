@@ -20,25 +20,27 @@
             <div id="requestContainer">
                 <div id="backgroundContainer">
                     <div id="uploadContainer">
-                        <div id="dropBox"></div>
+                        <div id="dropBox">
+                            Перетащите файл сюда или кликните, чтобы загрузить
+                        </div>
                         <input type="file" id="fileInput" multiple>
                     </div>
-                    <div id="languageContainer" class="variantContainer">
-                        Язык:
+                    <div class="variantContainer">
+                        Речь:
                         <select id="language" class="variant">
-                            <option value="en">английский</option>
-                            <option value="other">другой</option>
+                            <option value="en">английская</option>
+                            <option value="other">другая</option>
                         </select>
                     </div>
-                    <div id="modelContainer" class="variantContainer">
-                        <a href="help.html" id="modelTableLink">Модель</a>:
+                    <div class="variantContainer">
+                        <a href="./help/help.html" id="modelTableLink">Модель</a>:
                         <select id="model" class="variant">
                             <option value="tiny">миниатюрная</option>
                             <option value="base">базовая</option>
                             <option value="small">маленькая</option>
                             <option value="medium">средняя</option>
                             <option value="large">большая</option>
-                            <option value="turbo">турбо</option>
+                            <option value="turbo">быстрая</option>
                         </select>
                     </div>
                     <button id="sendBtn">В текст</button>

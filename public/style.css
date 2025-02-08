@@ -72,12 +72,13 @@ main {
 
 #dropBox {
     height: 150px;
+    border: 3px solid #202020;
     border-radius: 10px;
     padding: 5px;
-    background-image: url('./images/dropBox.png');
-    background-repeat: no-repeat;
-    background-size: 75px;
-    background-position: center;
+    height: 100px;
+    width: 270px;
+    box-sizing: border-box;
+    background-color: white;
     font-size: 17px;
     text-align: center;
     display: flex;
@@ -91,28 +92,17 @@ main {
 }
 
 .dragover {
-    background-color: #eee;
-    color: #2c2c2c;
+    background-color: #eee !important;
 }
 
 .variantContainer {
-    background-color: white;
-    border: 3px solid #202020;
-    border-radius: 10px;
     padding: 7px 0 7px 8px;
-    margin-bottom: 10px;
     font-size: 17px;
 }
 
 .variant {
     margin-left: 2px;
     font-size: 15px;
-}
-
-#helpBody {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 #modelTableLink {
@@ -128,7 +118,7 @@ main {
 select {
     padding: 5px;
     border-radius: 5px;
-    background: #eee;
+    background: white;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -139,6 +129,7 @@ select {
 #sendBtn {
     width: 269px;
     padding: 9px 0 9px 10px;
+    margin-top: 10px;
     background-color: white;
     font-size: 25px;
     border: 3px solid #202020;
@@ -171,6 +162,7 @@ select {
 #resultsTable td {
     font-size: 17px;
     border: 3px solid #202020;
+    text-align: center;
 }
 
 #resultsTable th {
@@ -179,7 +171,6 @@ select {
 
 #resultsTable td {
     padding: 10px;
-    text-align: center;
 }
 
 .manageIcon {
@@ -247,21 +238,31 @@ footer p {
     color: #202020;
 }
 
+#helpContainer {
+    display: flex;
+    justify-content: center;
+}
+
 #modelTable {
     align-self: center;
     margin-top: 5px;
-    width: min-content;
+    width: 25%;
     border-collapse: collapse;
+    color: #202020;
 }
 
 #modelTable th,
 #modelTable td {
-    padding: 8px;
     border: 1px solid #ddd;
     text-align: center;
 }
 
+#modelTable td {
+    padding: 8px 6px;
+}
+
 #modelTable th {
+    padding: 8px 10px;
     background-color: #f4f4f4;
 }
 
@@ -306,7 +307,6 @@ footer p {
 }
 
 @media only screen and (max-width: 576px) {
-
     #resultsTable th:nth-child(1),
     #resultsTable td:nth-child(1) {
         display: none;
@@ -317,6 +317,6 @@ footer p {
     }
 
     #modelTable {
-        font-size: 15px;
+        font-size: 13px;
     }
 }

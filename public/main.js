@@ -98,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         dropBox.classList.remove('dragover');
         files = e.dataTransfer.files;
-        this.style.backgroundImage = 'none';
         this.textContent = 'Выбрано файлов: ' + files.length;
         token = localStorage.getItem('token');
         if (token) {
@@ -120,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Обработка выбора файлов через файловый диалог
     fileInput.addEventListener('change', function (e) {
         files = e.target.files;
-        dropBox.style.backgroundImage = 'none';
         dropBox.textContent = 'Выбрано файлов: ' + files.length;
         token = localStorage.getItem('token');
         if (token) {
@@ -147,8 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
         uploadFiles(files);
         fileInput.value = null;
         files = [];
-        dropBox.innerHTML = '';
-        dropBox.style.backgroundImage = '';
+        dropBox.innerHTML = 'Перетащите файл сюда или кликните, чтобы загрузить';
         sendBtn.disabled = true;
     });
 

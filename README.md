@@ -12,14 +12,9 @@ sudo apt install -y nodejs npm ffmpeg python3 python-is-python3 python3-pip pyth
 ```
 
 ### 2. Install Python Dependencies
-If you're using an NVIDIA GPU with CUDA, specify the correct CUDA version in the `requirements.txt` file:
+If you're using an NVIDIA GPU with CUDA, find the right version of `torch` at `https://download.pytorch.org/whl/torch/` and set it in `requirements.txt` file:
 ```txt
-torch --index-url https://download.pytorch.org/whl/cu<YOUR_CUDA_VERSION>
-```
-
-For example, if you have CUDA 12.4:
-```txt
-torch --index-url https://download.pytorch.org/whl/cu124
+torch --index-url https://download.pytorch.org/whl/cu<YOUR_CUDA_VERSION>/...
 ```
 
 If things don't work out, it's backwards compatible! So, go for another build.
