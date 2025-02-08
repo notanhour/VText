@@ -184,10 +184,9 @@ document.addEventListener('DOMContentLoaded', function () {
         results.forEach(function (result) {
             let resultInfo = document.createElement('tr');
 
-            let ending = result.model.includes('medium') ? 'яя' : 'ая';
             let translatedModel = Array.from(model.options).find(function (option) {
                 return result.model.includes(option.value);
-            }).text.slice(0, -2) + ending;
+            }).text;
 
             resultInfo.innerHTML = `<td>${result.date}</td><td id="fileName">${result.file}</td><td>${translatedModel}</td>`;
 
@@ -298,11 +297,13 @@ document.addEventListener('DOMContentLoaded', function () {
     language.addEventListener('change', function () {
         if (this.value == 'en') {
             model.querySelector('option[value="large"]').disabled = true;
-            if (model.value == 'large') {
+            model.querySelector('option[value="turbo"]').disabled = true;
+            if (model.value == 'large' || model.value == 'turbo') {
                 model.value = 'medium';
             }
         } else {
             model.querySelector('option[value="large"]').disabled = false;
+            model.querySelector('option[value="turbo"]').disabled = false;
         }
     });
 

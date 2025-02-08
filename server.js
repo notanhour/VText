@@ -56,57 +56,25 @@ app.post('/upload', upload.array('files'), function (req, res) {
     req.files.forEach(function (file) {
         let filename = file.originalname;
         let filePath = path.resolve(file.path);
+        let fileExtension = path.extname(filename).toLowerCase();
         let id = uuidv4();
-        splitAudio(filePath, filename, id, 20);
+        transcribe(filePath, filename, id);
     });
 
-    function splitAudio(filePath, filename, id, chunkDuration) {
-        let chunkFolder = path.join(req.uploadFolder, 'chunks_' + id);
-        fs.mkdirSync(chunkFolder, { recursive: true });
-
-        let chunkTemplate = path.join(chunkFolder, 'chunk_%03d.mp3');
-
-        ffmpeg(filePath)
-            .output(chunkTemplate)
-            .outputFormat('mp3')
-            .outputOptions(['-f segment', `-segment_time ${chunkDuration}`])
-            .on('end', function () {
-                processChunks(chunkFolder, filename, id);
-            })
-            .on('error', function (error) {
-                console.error('FFmpeg error:', error.message);
-                results.push({ id: id, file: filename, date: date, model: model, error: error.message });
-                isFinished();
-            })
-            .run();
-    }
-
-    function processChunks(chunkFolder, filename, id) {
-        let chunks = fs.readdirSync(chunkFolder).map(function (f) {
-            return path.join(chunkFolder, f);
-        }).sort();
-        let transcriptParts = [];
-        let processed = 0;
-
-        chunks.forEach(function (chunk, i) {
-            exec(`python transcribe.py ${chunk} ${model}`, function (error, stdout, stderr) {
-                if (error) {
-                    console.error('Error:', error.message);
-                    transcriptParts[i] = '[Ошибка транскрипции]';
-                } else if (stderr) {
-                    console.error('StdErr:', stderr);
-                    transcriptParts[i] = '[Ошибка транскрипции]';
-                } else {
-                    transcriptParts[i] = stdout.trim();
-                }
-                processed++;
-                if (processed == chunks.length) {
-                    let transcript = transcriptParts.join(' ');
-                    console.log('Transcript:', transcript);
-                    results.push({ id: id, file: filename, date: date, model: model, transcript: transcript });
-                    isFinished();
-                }
-            });
+    function transcribe(filePath, filename, id) {
+        exec(`python transcribe.py ${filePath} ${model}`, function (error, stdout, stderr) {
+            if (error) {
+                console.error('Error:', error.message);
+                results.push({id: id, file: filename, date: date, model: model, error: error.message});
+            } else if (stderr) {
+                console.error('StdErr:', stderr);
+                results.push({id: id, file: filename, date: date, model: model, error: stderr});
+            } else {
+                let transcript = stdout.trim();
+                console.log('Transcript:', transcript);
+                results.push({id: id, file: filename, date: date, model: model, transcript: transcript});
+            }
+            isFinished();
         });
     }
 

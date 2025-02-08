@@ -3,6 +3,9 @@ import whisper
 import torch
 import warnings
 import os
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 warnings.filterwarnings("ignore", category=UserWarning, message="FP16 is not supported on CPU; using FP32 instead")
 warnings.filterwarnings("ignore", category=FutureWarning, message="You are using `torch.load` with `weights_only=False`")
