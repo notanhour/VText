@@ -109,6 +109,22 @@ main {
     font-size: 15px;
 }
 
+#helpBody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modelTableLink {
+    color: inherit;
+}
+
+#modelTableLink:focus,
+#modelTableLink:active,
+#modelTableLink:visited {
+    color: inherit;
+}
+
 select {
     padding: 5px;
     border-radius: 5px;
@@ -151,17 +167,17 @@ select {
     border-collapse: collapse;
 }
 
-th,
-td {
+#resultsTable th,
+#resultsTable td {
     font-size: 17px;
     border: 3px solid #202020;
 }
 
-th {
+#resultsTable th {
     padding: 5px 12px;
 }
 
-td {
+#resultsTable td {
     padding: 10px;
     text-align: center;
 }
@@ -231,6 +247,24 @@ footer p {
     color: #202020;
 }
 
+#modelTable {
+    align-self: center;
+    margin-top: 5px;
+    width: min-content;
+    border-collapse: collapse;
+}
+
+#modelTable th,
+#modelTable td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+#modelTable th {
+    background-color: #f4f4f4;
+}
+
 @media only screen and (max-width: 1280px) {
     header {
         padding-right: 4%;
@@ -280,5 +314,9 @@ footer p {
 
     #loginForm {
         width: 260px;
+    }
+
+    #modelTable {
+        font-size: 15px;
     }
 }
