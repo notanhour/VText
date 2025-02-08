@@ -17,6 +17,8 @@ If you're using an NVIDIA GPU with CUDA, find the right version of `torch` at `h
 torch --index-url https://download.pytorch.org/whl/cu<YOUR_CUDA_VERSION>/...
 ```
 
+You need a `manylinux` build with `+cu<YOUR_CUDA_VERSION>`.
+
 If things don't work out, it's backwards compatible! So, go for another build.
 
 Then install the required Python dependencies from the `requirements.txt` file:
