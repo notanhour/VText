@@ -1,3 +1,17 @@
+:root {
+    --primary-color: #a9c9e2;
+    --secondary-color: #cfe7f3;
+    --dark: #202020;
+    --light: #f4fafd;
+    --hover-light: #e6f5fb;
+    --error-color: #fa6868;
+
+    --border-width: 1px;
+    --border-radius: 10px;
+    --border-color: var(--primary-color);
+    --border-standard: var(--border-width) solid var(--border-color);
+}
+
 body {
     min-height: 100vh;
     padding: 0;
@@ -10,8 +24,8 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #d4d4d4;
-    border-bottom: 3px solid #202020;
+    background-color: var(--secondary-color);
+    border-bottom: var(--border-standard);
     padding-right: 2%;
 }
 
@@ -19,31 +33,32 @@ header {
 #backLink {
     text-decoration: none;
     font-size: 18px;
-    color: #202020;
-    background-color: white;
+    color: var(--dark);
+    background-color: var(--light);
     padding: 5px 10px;
-    border: 3px solid #202020;
-    border-radius: 10px;
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
 }
 
 #logInOutLink:hover,
 #backLink:hover {
-    background-color: #eee;
+    background-color: var(--hover-light);
 }
 
 #logInOutLink:active,
 #backLink:active {
-    background-color: #d4d4d4;
+    background-color: var(--primary-color);
 }
 
 h1 {
     display: inline-block;
-    color: #202020;
+    color: var(--dark);
 }
 
 main {
     flex: 1;
     padding: 40px 0;
+    background-color: var(--light);
 }
 
 #masterContainer {
@@ -59,9 +74,9 @@ main {
 
 #backgroundContainer {
     padding: 15px;
-    background-color: #d4d4d4;
-    border: 3px solid #202020;
-    border-radius: 10px;
+    background-color: var(--secondary-color);
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
     max-height: 391px;
     box-sizing: border-box;
 }
@@ -72,13 +87,13 @@ main {
 
 #dropBox {
     height: 150px;
-    border: 3px solid #202020;
-    border-radius: 10px;
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
     padding: 5px;
     height: 100px;
     width: 270px;
     box-sizing: border-box;
-    background-color: white;
+    background-color: var(--light);
     font-size: 17px;
     text-align: center;
     display: flex;
@@ -92,7 +107,7 @@ main {
 }
 
 .dragover {
-    background-color: #eee !important;
+    background-color: var(--primary-color) !important;
 }
 
 .variantContainer {
@@ -103,6 +118,8 @@ main {
 .variant {
     margin-left: 2px;
     font-size: 15px;
+    background-color: var(--light);
+    border: var(--border-standard);
 }
 
 #modelTableLink {
@@ -130,23 +147,23 @@ select {
     width: 269px;
     padding: 9px 0 9px 10px;
     margin-top: 10px;
-    background-color: white;
+    background-color: var(--light);
     font-size: 25px;
-    border: 3px solid #202020;
-    border-radius: 10px;
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
     cursor: pointer;
 }
 
 #sendBtn:hover {
-    background-color: #eee;
+    background-color: var(--hover-light);
 }
 
 #sendBtn:active {
-    background-color: #d4d4d4;
+    background-color: var(--primary-color);
 }
 
 #sendBtn:disabled {
-    background-color: white;
+    background-color: var(--light);
     cursor: not-allowed;
 }
 
@@ -161,7 +178,7 @@ select {
 #resultsTable th,
 #resultsTable td {
     font-size: 17px;
-    border: 3px solid #202020;
+    border: var(--border-standard);
     text-align: center;
 }
 
@@ -177,6 +194,26 @@ select {
     vertical-align: middle;
 }
 
+#viewBtn,
+#downloadBtn,
+#deleteBtn {
+    background-color: var(--light);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+#viewBtn:hover,
+#downloadBtn:hover,
+#deleteBtn:hover {
+    background-color: var(--hover-light);
+}
+
+#viewBtn:active,
+#downloadBtn:active,
+#deleteBtn:active {
+    background-color: var(--primary-color);
+}
+
 #fileName {
     max-width: 102px;
     overflow: hidden;
@@ -185,11 +222,11 @@ select {
 }
 
 .success {
-    background-color: #eee;
+    background-color: var(--secondary-color);
 }
 
 .error {
-    background-color: #fa6868;
+    background-color: var(--error-color);
 }
 
 #loginContainer {
@@ -204,38 +241,56 @@ select {
     flex-direction: column;
     gap: 15px;
     padding: 20px;
-    border: 3px solid #202020;
-    border-radius: 10px;
-    background-color: #d4d4d4;
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
+    background-color: var(--secondary-color);
 }
 
 input {
     font-size: 23px;
     padding: 2px 0 2px 5px;
-    border-radius: 10px;
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
+    background-color: var(--light);
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: none;
 }
 
 #loginBtn,
 #signUpBtn {
     font-size: 23px;
-    border: 3px solid #202020;
-    border-radius: 10px;
+    border: var(--border-standard);
+    border-radius: var(--border-radius);
     padding-bottom: 4px;
+    background-color: var(--light);
+}
+
+#loginBtn:hover,
+#signUpBtn:hover {
+    background-color: var(--hover-light);
+}
+
+#loginBtn:active,
+#signUpBtn:active {
+    background-color: var(--primary-color);
 }
 
 footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #d4d4d4;
-    border-top: 3px solid #202020;
+    background-color: var(--secondary-color);
+    border-top: var(--border-standard);
     padding: 16px 0;
     font-size: 17px;
 }
 
 footer p {
     display: inline-block;
-    color: #202020;
+    color: var(--dark);
 }
 
 #helpContainer {
@@ -248,12 +303,12 @@ footer p {
     margin-top: 5px;
     width: 25%;
     border-collapse: collapse;
-    color: #202020;
+    color: var(--dark);
 }
 
 #modelTable th,
 #modelTable td {
-    border: 1px solid #ddd;
+    border: var(--border-standard);
     text-align: center;
 }
 
@@ -262,8 +317,8 @@ footer p {
 }
 
 #modelTable th {
-    padding: 8px 10px;
-    background-color: #f4f4f4;
+    padding: 8px;
+    background-color: var(--secondary-color);
 }
 
 @media only screen and (max-width: 1280px) {
