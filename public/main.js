@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
             viewBtn.id = 'viewBtn';
             let viewIcon = document.createElement('img');
             viewIcon.src = './images/view.png';
-            viewIcon.style.height = '20px';
+            viewIcon.style.height = '22px';
             viewIcon.classList.add('manageIcon');
             viewBtn.appendChild(viewIcon);
             viewBtn.style.marginRight = '7px';

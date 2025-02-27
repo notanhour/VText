@@ -214,6 +214,8 @@ app.post('/register', function (req, res) {
 
         if (users[username]) {
             res.status(400).json({ success: false, message: 'Имя пользователя занято. Попробуйте другое.' });
+        } else if (username.trim() == "" || password.trim() == "") {
+            res.status(400).json({ success: false, message: 'Имя пользователя и пароль не могут быть пустыми или включать в себя только пробелы.' });
         } else {
             bcrypt.hash(password, 10, function (error, hash) {
                 if (error) {
