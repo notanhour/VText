@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return result.model.includes(option.value);
             }).text;
 
-            resultInfo.innerHTML = `<td>${result.date}</td><td id="fileName">${result.file}</td><td>${translatedModel}</td>`;
+            resultInfo.innerHTML = `<td>${result.date}</td><td title="${result.file}" id="fileName">${result.file}</td><td>${translatedModel}</td>`;
 
             let viewBtn = document.createElement('button');
             viewBtn.id = 'viewBtn';
