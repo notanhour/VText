@@ -78,7 +78,7 @@ docker ps
 
 Then stop it using:
 ```bash
-docker stop <CONTAINER_ID>  
+docker stop <CONTAINER_ID>
 ```
 
 ### 5. Remove Unused Containers
